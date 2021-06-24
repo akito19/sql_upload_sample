@@ -1,0 +1,38 @@
+name: TD Scheduled Query
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    types: [closed]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
+    # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
+    if: ${{ github.event.pull_request.merged == "true" }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Start job
+        # See: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsif
+        # also https://docs.github.com/en/rest/reference/pulls#check-if-a-pull-request-has-been-merged
+        run: echo "Start update queries:\n$(find . -name '*.sql')"
+
+      - name: Update queries
+        env:
+          TD_API_SERVER: https://api.treasure-data.com
+          TD_API_KEY: ${{ secrets.TD_SECRET }}
+        run: for i in $(find . -name '*.sql'); do n="$(basename $i .sql)"; td sched:update $n -q "$(cat $i)"; done
+
+      - name: Finish job
+        run: echo 'Finish the update!'
