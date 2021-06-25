@@ -34,7 +34,7 @@ jobs:
         run:
           gem install td
           mkdir ~/.td
-          echo "[account]\n  user = $TD_EMAIL\n  apikey = $TD_API_KEY\n  endpoint = $TD_API_SERVER" > .td/td.conf
+          echo "[account]\n  user = $TD_EMAIL\n  apikey = $TD_API_KEY\n  endpoint = $TD_API_SERVER" > ~/.td/td.conf
 
       - name: Start job
         # See: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsif
