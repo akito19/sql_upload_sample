@@ -3,7 +3,7 @@ name: TD Scheduled Query
 # Controls when the workflow will run
 on:
   pull_request:
-    types: [closed]
+    types: [open, reopened, closed]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,8 +27,13 @@ jobs:
           bundler-cache: true  # runs 'bundle install' and caches installed gems automatically
 
       - name: Install TD toolbelt
+        env:
+          TD_API_SERVER: https://api.treasure-data.com
+          TD_API_KEY: ${{ secrets.TD_SECRET }}
+          TD_EMAIL: ${{ secrests.TD_USER }}
         run:
           gem install td
+          echo "[account]\n  user = $TD_EMAIL\n  apikey = $TD_API_KEY\n  endpoint = $TD_API_SERVER" > .td/td.conf
 
       - name: Start job
         # See: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsif
@@ -36,9 +41,6 @@ jobs:
         run: echo "Start update queries"
 
       - name: Update queries
-        env:
-          TD_API_SERVER: https://api.treasure-data.com
-          TD_API_KEY: ${{ secrets.TD_SECRET }}
         run: |
           diff=$(git show --name-only --oneline --pretty="format:" $GITHUB_REF | grep sql)
           for i in $diff; do n="$(basename $i .sql)"; td sched:update $n -q "$(cat $i)"; done
