@@ -20,10 +20,20 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true  # runs 'bundle install' and caches installed gems automatically
+
+      - name: Install TD toolbelt
+        run:
+          gem install td
+
       - name: Start job
         # See: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsif
         # also https://docs.github.com/en/rest/reference/pulls#check-if-a-pull-request-has-been-merged
-        run: echo "Start update queries:\n$(find . -name '*.sql')"
+        run: echo "Start update queries"
 
       - name: Update queries
         env:
