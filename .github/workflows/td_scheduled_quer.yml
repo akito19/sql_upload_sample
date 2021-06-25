@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
     # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
-    if: ${{ github.event.pull_request.merged == "true" }}
+    if: ${{ github.event.pull_request.merged == true }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
