@@ -30,7 +30,7 @@ jobs:
         env:
           TD_API_SERVER: https://api.treasure-data.com
           TD_API_KEY: ${{ secrets.TD_SECRET }}
-          TD_EMAIL: ${{ secrests.TD_USER }}
+          TD_EMAIL: ${{ secrets.TD_USER }}
         run:
           gem install td
           echo "[account]\n  user = $TD_EMAIL\n  apikey = $TD_API_KEY\n  endpoint = $TD_API_SERVER" > .td/td.conf
