@@ -3,7 +3,9 @@ select
   , name
   , age
   , title
+  , department
+  , created_at
 from test.workers
 where
-  created_at > '2021-06-20'
+  TD_TIME_RANGE(time, '2021-01-01', '2021-04-01', '+0900')
 ;
