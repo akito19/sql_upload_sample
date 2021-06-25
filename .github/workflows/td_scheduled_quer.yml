@@ -33,6 +33,7 @@ jobs:
           TD_EMAIL: ${{ secrets.TD_USER }}
         run:
           gem install td
+          mkdir ~/.td
           echo "[account]\n  user = $TD_EMAIL\n  apikey = $TD_API_KEY\n  endpoint = $TD_API_SERVER" > .td/td.conf
 
       - name: Start job
