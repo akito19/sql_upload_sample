@@ -37,7 +37,7 @@ jobs:
 
       - name: Update queries
         env:
-          TD_API_SERVER: https://api.treasure-data.com
+          TD_API_SERVER: https://api.treasuredata.com
           TD_API_KEY: ${{ secrets.TD_SECRET }}
         run: |
           diff=$(git show --name-only --oneline --pretty="format:" $GITHUB_SHA | grep sql)
