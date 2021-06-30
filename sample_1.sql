@@ -7,5 +7,5 @@ select
   , created_at
 from test.workers
 where
-  TD_TIME_RANGE(time, '2021-01-01', '2021-03-01', '+0900')
+  TD_TIME_RANGE(time, '2021-01-01', '2021-04-01', '+0900')
 ;
