@@ -44,7 +44,7 @@ jobs:
         #  TD_API_SERVER: https://api.treasuredata.com
         #  TD_API_KEY: ${{ secrets.TD_SECRET }}
         run: |
-          diff=$(git show --name-only --oneline --pretty="format:" 7b6a43d74d8c96ac | grep sql)
+          diff=$(git show --name-only --oneline --pretty="format:" $GITHUB_SHA | grep sql)
           for i in $diff; do n="$(basename $i .sql)"; td -c ~/.td/td.conf sched:update $n -q "$(cat $i)"; done
 
           # run: |
