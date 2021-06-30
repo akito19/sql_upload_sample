@@ -41,7 +41,7 @@ jobs:
           TD_API_KEY: ${{ secrets.TD_SECRET }}
         run: |
           diff=$(git show --name-only --oneline --pretty="format:" $GITHUB_SHA | grep sql)
-          for i in $diff; do n="$(basename $i .sql)"; td -k $TD_API_KEY sched:update $n -q "$(cat $i)"; done
+          for i in $diff; do n="$(basename $i .sql)"; td -e TD_API_SERVER -k $TD_API_KEY sched:update $n -q "$(cat $i)"; done
 
           # run: |
           #   diff=$(git show --name-only --oneline --pretty="format:" $GITHUB_REF | grep sql)
